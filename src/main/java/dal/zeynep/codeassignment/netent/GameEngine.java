@@ -3,6 +3,7 @@ package dal.zeynep.codeassignment.netent;
 import java.util.Random;
 
 public class GameEngine {
+
     private Random random;
 
     public GameEngine() {
@@ -13,26 +14,35 @@ public class GameEngine {
         this.random = random;
     }
 
-    public PlayResponse play(User user) {
+    public GameRound play(User user) {
+        boolean hasWonCoins = hasWonCoins();
+        boolean hasWonFreeRound = hasWonFreeRound();
+        boolean hasFreePlay = user.hasFreeRound();
+        int winningAmount = 0;
 
-        return new PlayResponse(hasWinCoins(), hasWonFreeRound());
+        if (!hasFreePlay) {
+            winningAmount -= 10;
+        } else {
+            user.setHasFreeRound(false);
+        }
+
+        if (hasWonCoins) {
+            winningAmount += 20;
+        }
+
+        if (hasWonFreeRound) {
+            user.setHasFreeRound(true);
+        }
+        user.setBalance(user.getBalance() + winningAmount);
+
+        return new GameRound(user.getId(), winningAmount, hasWonFreeRound);
     }
 
-    private boolean hasWinCoins(){
-        boolean hasWonCoins = false;
-        int chanceOfWinCoins = random.nextInt(100);
-        if (chanceOfWinCoins < 30) {
-            hasWonCoins = true;
-        }
-        return hasWonCoins;
+    private boolean hasWonCoins() {
+        return random.nextInt(100) < 30;
     }
 
-    private boolean hasWonFreeRound(){
-        boolean hasWonFreeRound = false;
-        int chanceOfWinFreeRound = random.nextInt(100);
-        if (chanceOfWinFreeRound < 10) {
-            hasWonFreeRound = true;
-        }
-        return hasWonFreeRound;
+    private boolean hasWonFreeRound() {
+        return random.nextInt(100) < 10;
     }
 }
