@@ -71,6 +71,16 @@ public class GameEngineTest {
     }
 
     @Test
+    public void shouldSubstractRoundCostFromWinningAmount() {
+        Random random = Mockito.mock(Random.class);
+        when(random.nextInt(100)).thenReturn(29, 11);
+        User user = new User();
+        GameEngine engine = new GameEngine(random);
+        GameRound gameRound = engine.play(user);
+        assertEquals((Object) (10), gameRound.getWinningAmount());
+    }
+
+    @Test
     public void shouldCalculateWinningAmountAsZeroWhenNoWinningWithAFreeRound() {
         Random random = Mockito.mock(Random.class);
         when(random.nextInt(100)).thenReturn(31, 11);
@@ -80,16 +90,6 @@ public class GameEngineTest {
 
         GameRound gameRound = engine.play(user);
         assertEquals((Object) (0), gameRound.getWinningAmount());
-    }
-
-    @Test
-    public void shouldSubstractRoundCostFromWinningAmount() {
-        Random random = Mockito.mock(Random.class);
-        when(random.nextInt(100)).thenReturn(29, 11);
-        User user = new User();
-        GameEngine engine = new GameEngine(random);
-        GameRound gameRound = engine.play(user);
-        assertEquals((Object) (10), gameRound.getWinningAmount());
     }
 
     @Test

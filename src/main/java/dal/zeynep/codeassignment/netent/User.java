@@ -1,14 +1,27 @@
 package dal.zeynep.codeassignment.netent;
 
-import java.util.UUID;
+import javax.persistence.*;
 
+@Entity
+@Table(name="user")
 public class User {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="id")
     private String id;
+
+    @Column(name="has_free_round")
     private boolean hasFreeRound;
+
+    @Column(name="balance")
     private Integer balance = 0;
 
     public User() {
-        this.id = UUID.randomUUID().toString();
+    }
+
+    public User(Integer balance, boolean hasFreeRound) {
+        this.balance = balance;
+        this.hasFreeRound = hasFreeRound;
     }
 
     public String getId() {
