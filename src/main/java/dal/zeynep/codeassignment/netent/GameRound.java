@@ -11,7 +11,7 @@ public class GameRound {
     @Column
     private String id;
     @Column
-    private String userId;
+    private String userName;
     @Column
     private Integer winningAmount;
     @Column
@@ -24,8 +24,8 @@ public class GameRound {
     public GameRound() {
     }
 
-    public GameRound(String userId, Integer winningAmount, boolean hasFreeRoundWon) {
-        this.userId = userId;
+    public GameRound(String userName, Integer winningAmount, boolean hasFreeRoundWon) {
+        this.userName = userName;
         this.winningAmount = winningAmount;
         this.hasFreeRoundWon = hasFreeRoundWon;
         this.hasCoinsWon = this.winningAmount >= 0;
@@ -40,12 +40,12 @@ public class GameRound {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getWinningAmount() {
@@ -60,20 +60,20 @@ public class GameRound {
         return playingTime;
     }
 
+    public boolean isHasCoinsWon() {
+        return hasCoinsWon;
+    }
+
+    public boolean isHasFreeRoundWon() {
+        return hasFreeRoundWon;
+    }
+
     public void setPlayingTime(Date playingTime) {
         this.playingTime = playingTime;
     }
 
-    public boolean hasCoinsWon() {
-        return hasCoinsWon;
-    }
-
     public void setHasCoinsWon(boolean hasCoinsWon) {
         this.hasCoinsWon = hasCoinsWon;
-    }
-
-    public boolean hasFreeRoundWon() {
-        return hasFreeRoundWon;
     }
 
     public void setHasFreeRoundWon(boolean hasFreeRoundWon) {

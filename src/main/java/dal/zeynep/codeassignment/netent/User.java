@@ -6,9 +6,8 @@ import javax.persistence.*;
 @Table
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column
-    private String id;
+    private String name;
 
     @Column
     private boolean hasFreeRound;
@@ -19,15 +18,19 @@ public class User {
     public User() {
     }
 
-    public String getId() {
-        return id;
+    public User(String name) {
+        this.name = name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
 
-    public boolean hasFreeRound() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isHasFreeRound() {
         return hasFreeRound;
     }
 
@@ -42,5 +45,4 @@ public class User {
     public void setBalance(Integer balance) {
         this.balance = balance;
     }
-
 }

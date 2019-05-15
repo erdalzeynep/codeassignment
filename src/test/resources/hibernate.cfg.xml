@@ -24,7 +24,7 @@
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
 
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create</property>
         <mapping class="dal.zeynep.codeassignment.netent.User"/>
         <mapping class="dal.zeynep.codeassignment.netent.GameRound"/>
 
