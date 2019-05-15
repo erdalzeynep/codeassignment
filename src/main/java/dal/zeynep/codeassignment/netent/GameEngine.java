@@ -1,19 +1,18 @@
 package dal.zeynep.codeassignment.netent;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.List;
 import java.util.Random;
 
 public class GameEngine {
 
     private Random random;
+    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     public GameEngine() {
         this.random = new Random();
@@ -59,33 +58,11 @@ public class GameEngine {
     }
 
     private void persistUser(User user) {
-        try {
-
-            Connection conn = DriverManager.getConnection("jdbc:h2:/Users/zeynepdal/test",
-                    "zeyneperdal", "123456");
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<User> query = builder.createQuery(User.class);
-            Root<User> root = query.from(User.class);
-            query.select(root);
-            query.where(builder.equal(root.get("id"), user.getId()));
-            User dbUser = session.createQuery(query).uniqueResult();
-            if (dbUser == null) {
-                session.save(user);
-                session.getTransaction().commit();
-            } else {
-                session.evict(dbUser);
-                dbUser.setBalance(user.getBalance());
-                session.update(dbUser);
-                transaction.commit();
-                session.close();
-            }
-            conn.close();
-        } catch (Exception e) {
-
-        }
-
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(user);
+        session.getTransaction().commit();
+        session.close();
     }
 
     public void printUserTable() {
