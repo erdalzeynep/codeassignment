@@ -1,8 +1,12 @@
 package dal.zeynep.codeassignment.netent;
 
+import org.hibernate.Session;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -109,5 +113,57 @@ public class GameEngineTest {
         GameEngine engine = new GameEngine(random);
         engine.play(user);
         assertTrue(user.hasFreeRound());
+    }
+
+    @Test
+    public void shouldPersistUser() {
+        Random random = Mockito.mock(Random.class);
+        when(random.nextInt(100)).thenReturn(29, 11);
+        User user = new User();
+        user.setBalance(100);
+        user.setHasFreeRound(true);
+        GameEngine engine = new GameEngine(random);
+        engine.play(user);
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<User> query = builder.createQuery(User.class);
+
+        Root<User> root = query.from(User.class);
+        query.select(root).where(builder.equal(root.get("id"), user.getId()));
+        User persistedUser = session.createQuery(query).uniqueResult();
+
+        assertNotNull(persistedUser);
+        assertEquals(user.getBalance(), persistedUser.getBalance());
+        assertEquals(user.getId(), persistedUser.getId());
+
+        session.close();
+
+    }
+
+    @Test
+    public void shouldPersistGameRound() {
+        Random random = Mockito.mock(Random.class);
+        when(random.nextInt(100)).thenReturn(29, 11);
+        User user = new User();
+        user.setBalance(100);
+        user.setHasFreeRound(false);
+        GameEngine engine = new GameEngine(random);
+        GameRound gameRound = engine.play(user);
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<GameRound> query = builder.createQuery(GameRound.class);
+
+        Root<GameRound> root = query.from(GameRound.class);
+        query.select(root).where(builder.equal(root.get("id"), gameRound.getId()));
+        GameRound persistedRound = session.createQuery(query).uniqueResult();
+
+        assertNotNull(persistedRound);
+        assertEquals(gameRound.getId() ,persistedRound.getId());
+        assertEquals(gameRound.getWinningAmount(), persistedRound.getWinningAmount());
+
+        session.close();
+
     }
 }

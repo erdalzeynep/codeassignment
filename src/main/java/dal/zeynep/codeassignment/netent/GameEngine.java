@@ -3,10 +3,6 @@ package dal.zeynep.codeassignment.netent;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.List;
 import java.util.Random;
 
 public class GameEngine {
@@ -44,9 +40,9 @@ public class GameEngine {
         user.setBalance(user.getBalance() + winningAmount);
         persistUser(user);
 
-        printUserTable();
-
-        return new GameRound(user.getId(), winningAmount, hasWonFreeRound);
+        GameRound gameRound = new GameRound(user.getId(), winningAmount, hasWonFreeRound);
+        persistGameRound(gameRound);
+        return gameRound;
     }
 
     private boolean hasWonCoins() {
@@ -65,20 +61,11 @@ public class GameEngine {
         session.close();
     }
 
-    public void printUserTable() {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<User> query = builder.createQuery(User.class);
-
-        Root<User> root = query.from(User.class);
-        query.select(root);
-
-        List<User> userList = session.createQuery(query).getResultList();
-
-        for (User user : userList) {
-            System.out.println("ID : " + user.getId() + "     Balance : " + user.getBalance());
-        }
-
+    private void persistGameRound(GameRound gameRound) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(gameRound);
+        session.getTransaction().commit();
+        session.close();
     }
 }

@@ -1,32 +1,43 @@
 package dal.zeynep.codeassignment.netent;
 
+import javax.persistence.*;
 import java.util.Date;
-import java.util.UUID;
 
+@Entity
+@Table
 public class GameRound {
-    private String roundId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private String id;
+    @Column
     private String userId;
+    @Column
     private Integer winningAmount;
+    @Column
     private Date playingTime;
+    @Column
     private boolean hasCoinsWon;
+    @Column
     private boolean hasFreeRoundWon;
 
+    public GameRound() {
+    }
 
     public GameRound(String userId, Integer winningAmount, boolean hasFreeRoundWon) {
         this.userId = userId;
         this.winningAmount = winningAmount;
         this.hasFreeRoundWon = hasFreeRoundWon;
         this.hasCoinsWon = this.winningAmount >= 0;
-        this.roundId = UUID.randomUUID().toString();
         this.playingTime = new Date();
     }
 
-    public String getRoundId() {
-        return roundId;
+    public String getId() {
+        return id;
     }
 
-    public void setRoundId(String roundId) {
-        this.roundId = roundId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserId() {

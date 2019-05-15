@@ -3,25 +3,20 @@ package dal.zeynep.codeassignment.netent;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column
     private String id;
 
-    @Column(name="has_free_round")
+    @Column
     private boolean hasFreeRound;
 
-    @Column(name="balance")
+    @Column
     private Integer balance = 0;
 
     public User() {
-    }
-
-    public User(Integer balance, boolean hasFreeRound) {
-        this.balance = balance;
-        this.hasFreeRound = hasFreeRound;
     }
 
     public String getId() {
@@ -47,4 +42,5 @@ public class User {
     public void setBalance(Integer balance) {
         this.balance = balance;
     }
+
 }
