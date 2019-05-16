@@ -1,4 +1,4 @@
-##How to Run
+## How to Run
 
 ```
 git clone https://github.com/erdalzeynep/codeassignment.git
@@ -7,29 +7,29 @@ cd codeassignment
 ./mvnw spring-boot:run 
 ```
 
-###To Play
+### To Play
 
 ```
 ./play.sh <user-name>
 ```
 
-###To Get User Detail
+### To Get User Detail
 
 ```
 ./get-user.sh <user-name>
 ```
 
-###To Get Round Detail
+### To Get Round Detail
 
 ```
 ./get-round.sh <round-id>
 ```
 
-####Running the tests
+#### Running the tests
 ```
 ./mvnw test
 ```
-###Technologies That is Used
+### Technologies That is Used
 
 * [Spring Boot](https://spring.io/projects/spring-boot)
 
