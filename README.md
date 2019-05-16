@@ -1,4 +1,4 @@
-#Game of Chance
+# Game of Chance
 A RESTful service which players can play a simple game of chance. 
 Player can win either coins or a free next round. Each player has infinite credit.
  Every round costs 10 coins and has 30% chance of winning 20 coins and 10% chance 
